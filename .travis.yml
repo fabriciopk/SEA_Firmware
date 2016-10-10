@@ -15,3 +15,5 @@ install:
 
 script:
     - platformio ci --lib="lib/AS5048A" --lib="lib/DynamixelProtocol" --board=genericSTM32F103C8
+    - cp .pioenvs/genericSTM32F103C8/firmware.bin build/
+    - cp .pioenvs/genericSTM32F103C8/firmware.eld build/
