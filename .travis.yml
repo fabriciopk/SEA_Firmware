@@ -14,4 +14,4 @@ install:
     - pip install -U platformio
 
 script:
-    - platformio ci --lib="." --board=genericSTM32F103C8
+    - platformio ci --lib="lib" --board=genericSTM32F103C8
