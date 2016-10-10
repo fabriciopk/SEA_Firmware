@@ -14,4 +14,4 @@ install:
     - pip install -U platformio
 
 script:
-    - platformio ci --lib="AS5048A" --lib="DynamixelProtocol" --board=genericSTM32F103C8
+    - platformio ci --lib="lib/AS5048A" --lib="lib/DynamixelProtocol" --board=genericSTM32F103C8
