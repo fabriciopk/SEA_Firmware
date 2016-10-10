@@ -15,13 +15,3 @@ install:
 
 script:
     - platformio ci --lib="lib/AS5048A" --lib="lib/DynamixelProtocol" --board=genericSTM32F103C8
-
-
-file:
-  - $TRAVIS_BUILD_DIR/.pioenvs/nanoatmega328/firmware.hex
-  - $TRAVIS_BUILD_DIR/.pioenvs/digispark-tiny/firmware.elf
-
-skip_cleanup: true
-
-on:
-  tags: true

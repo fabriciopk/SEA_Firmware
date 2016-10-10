@@ -1,86 +1,100 @@
-/**
-    SPI_1 and SPI_2 port example code
-
-    Description:
-    This sketch sends one byte with value 0x55 over the SPI_1 or SPI_2 port.
-    The received byte (the answer from the SPI slave device) is stored to the <data> variable.
-
-    The sketch as it is, works with SPI_1 port. For using the SPI_2 port, just
-    un-comment all the nessesary code lines marked with <SPI_2> word.
-
-    Created on 10 Jun 2015 by Vassilis Serasidis
-    email:  avrsite@yahoo.gr
-
-    Using the first SPI port (SPI_1)
-    SS    <-->  PA4 <-->  BOARD_SPI1_NSS_PIN
-    SCK   <-->  PA5 <-->  BOARD_SPI1_SCK_PIN
-    MISO  <-->  PA6 <-->  BOARD_SPI1_MISO_PIN
-    MOSI  <-->  PA7 <-->  BOARD_SPI1_MOSI_PIN
-
-    Using the second SPI port (SPI_2)
-    SS    <-->  PB12 <-->  BOARD_SPI2_NSS_PIN
-    SCK   <-->  PB13 <-->  BOARD_SPI2_SCK_PIN
-    MISO  <-->  PB14 <-->  BOARD_SPI2_MISO_PIN
-    MOSI  <-->  PB15 <-->  BOARD_SPI2_MOSI_PIN
-*/
-
-
-#include <SPI.h>
-#include <AS5048A.h>
 #include <DynamixelProtocol.h>
-#define SEA_ID 1
+#include <AS5048A.h>
+#include <SPI.h>
 
-#define SPI1_NSS_PIN PA4    //SPI_1 Chip Select pin is PA4. You can change it to the STM32 pin you want.
-#define SPI2_NSS_PIN PB12   //SPI_2 Chip Select pin is PB12. You can change it to the STM32 pin you want.
+#define SEA_ID 108
+#define LED 8
+#define EN 2
+#define INVERTED
 
 AS5048A mag(10);
-DynamixelProtocol dxl(400000,SEA_ID);
+//SoftwareSerial Serial(0,1);
+DynamixelProtocol dxl(400000,SEA_ID); //,&Serial);
 
-
-SPIClass SPI_2(2); //Create an instance of the SPI Class called SPI_2 that uses the 2nd SPI Port
-byte data;
-
-void setup() {
-
-  // Setup SPI 1
-  SPI.begin(); //Initialize the SPI_1 port.
-  SPI.setBitOrder(MSBFIRST); // Set the SPI_1 bit order
-  SPI.setDataMode(SPI_MODE0); //Set the  SPI_2 data mode 0
-  SPI.setClockDivider(SPI_CLOCK_DIV16);      // Slow speed (72 / 16 = 4.5 MHz SPI_1 speed)
-  pinMode(SPI1_NSS_PIN, OUTPUT);
-
-  // Setup SPI 2
-  SPI_2.begin(); //Initialize the SPI_2 port.
-  SPI_2.setBitOrder(MSBFIRST); // Set the SPI_2 bit order
-  SPI_2.setDataMode(SPI_MODE0); //Set the  SPI_2 data mode 0
-  SPI_2.setClockDivider(SPI_CLOCK_DIV16);  // Use a different speed to SPI 1
-  pinMode(SPI2_NSS_PIN, OUTPUT);
-
-
-}
-
-
-void sendSPI()
+void blink(int times)
 {
-  digitalWrite(SPI1_NSS_PIN, LOW); // manually take CSN low for SPI_1 transmission
-  data = SPI.transfer(0x55); //Send the HEX data 0x55 over SPI-1 port and store the received byte to the <data> variable.
-  digitalWrite(SPI1_NSS_PIN, HIGH); // manually take CSN high between spi transmissions
+  for (int i = 0 ; i < times ; i++)
+  {
+    digitalWrite(LED,HIGH);
+    delay(125);
+    digitalWrite(LED,LOW);
+    delay(125);
+  }
+  delay(500);
 }
 
-
-void sendSPI2()
+void setup()
 {
-  digitalWrite(SPI2_NSS_PIN, LOW); // manually take CSN low for SPI_2 transmission
-  data = SPI_2.transfer(0x55); //Send the HEX data 0x55 over SPI-2 port and store the received byte to the <data> variable.
-  digitalWrite(SPI2_NSS_PIN, HIGH); // manually take CSN high between spi transmissions
+  pinMode(LED, OUTPUT);
+  pinMode(EN, OUTPUT);
+  digitalWrite(EN, LOW);
+  mag.init();
+  dxl.init();
+  blink(SEA_ID - 100);
 }
-
-
 
 void loop() {
-
-  sendSPI();
-  sendSPI2();
-
-  delayMicroseconds(10);    //Delay 10 micro seconds.
+  #ifndef INVERTED
+  word val = mag.getRawRotation();
+  #else
+  word val = 8192 - mag.getRawRotation();
+  #endif
+  dxl.checkMessages();
+  if (dxl.instruction != DXL_NO_DATA)
+  {
+    digitalWrite(LED, HIGH);
+    switch (dxl.instruction)
+    {
+      case DXL_PING:
+        digitalWrite(EN, HIGH);
+        dxl.sendStatusPacket(0x00, NULL, 0);
+        Serial.flush();
+        digitalWrite(EN, LOW);
+        break;
+      case DXL_READ_DATA:
+        if (dxl.total_parameters == 2 && dxl.parameters[1] == 2)
+        {
+          unsigned char values[2];
+          switch (dxl.parameters[0])
+          {
+            case 0x24:
+              values[0] = (unsigned char)val;
+              values[1] = (unsigned char)(val >> 8);
+              break;
+            case 0x00:
+              values[0] = 54;
+              values[1] = 1;
+              break;
+            case 0x01:
+              values[0] = 0;
+              values[1] = 1;
+              break;
+            default:
+              values[0] = 0;
+              values[1] = 0;
+              break;
+          }
+          //delay(1);
+          digitalWrite(EN, HIGH);
+          dxl.sendStatusPacket(0x00, values, 2);
+          Serial.flush();
+          digitalWrite(EN, LOW);
+        }
+        break;
+      case DXL_WRITE_DATA:
+        break;
+      case DXL_REG_WRITE:
+        break;
+      case DXL_ACTION:
+        break;
+      case DXL_RESET:
+        break;
+      case DXL_SYNC_WRITE:
+        break;
+      default:
+        break;
+    }
+  } else {
+    digitalWrite(LED,LOW);
+  }
 }
