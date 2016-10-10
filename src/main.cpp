@@ -26,9 +26,16 @@
 
 
 #include <SPI.h>
+#include <AS5048A.h>
+#include <DynamixelProtocol.h>
+#define SEA_ID 1
 
 #define SPI1_NSS_PIN PA4    //SPI_1 Chip Select pin is PA4. You can change it to the STM32 pin you want.
 #define SPI2_NSS_PIN PB12   //SPI_2 Chip Select pin is PB12. You can change it to the STM32 pin you want.
+
+AS5048A mag(10);
+DynamixelProtocol dxl(400000,SEA_ID);
+
 
 SPIClass SPI_2(2); //Create an instance of the SPI Class called SPI_2 that uses the 2nd SPI Port
 byte data;
