@@ -1,40 +1,17 @@
-# language: python
-# python:
-#     - "2.7"
-#
-# sudo: false
-#
-# cache:
-#     directories:
-#         - "~/.platformio"
-#
-# install:
-#     - pip install -U platformio
-#
-# script:
-#     - platformio run
+language: python
+python:
+    - "2.7"
 
+sudo: false
+cache:
+    directories:
+        - "~/.platformio"
 
-#
-# Template #2: The project is intended to by used as a library with examples
-#
+env:
+    - PLATFORMIO_CI_SRC=sec/main.cpp
 
-# language: python
-# python:
-#     - "2.7"
-#
-# sudo: false
-# cache:
-#     directories:
-#         - "~/.platformio"
-#
-# env:
-#     - PLATFORMIO_CI_SRC=path/to/test/file.c
-#     - PLATFORMIO_CI_SRC=examples/file.ino
-#     - PLATFORMIO_CI_SRC=path/to/test/directory
-#
-# install:
-#     - pip install -U platformio
-#
-# script:
-#     - platformio ci --lib="." --board=ID_1 --board=ID_2 --board=ID_N
+install:
+    - pip install -U platformio
+
+script:
+    - platformio ci --lib="." --board=genericSTM32F103C8
