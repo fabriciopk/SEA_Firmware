@@ -3,8 +3,6 @@
 #include <SPI.h>
 
 #define SEA_ID 108
-#define LED 8
-#define EN 2
 #define INVERTED
 
 AS5048A mag(10);
@@ -15,9 +13,9 @@ void blink(int times)
 {
   for (int i = 0 ; i < times ; i++)
   {
-    digitalWrite(LED,HIGH);
+    digitalWrite(PB0,HIGH);
     delay(125);
-    digitalWrite(LED,LOW);
+    digitalWrite(PB0,LOW);
     delay(125);
   }
   delay(500);
@@ -25,9 +23,9 @@ void blink(int times)
 
 void setup()
 {
-  pinMode(LED, OUTPUT);
-  pinMode(EN, OUTPUT);
-  digitalWrite(EN, LOW);
+  pinMode(PB0, OUTPUT);
+  pinMode(PB0, OUTPUT);
+  digitalWrite(PA1, LOW);
   mag.init();
   dxl.init();
   blink(SEA_ID - 100);
@@ -42,14 +40,14 @@ void loop() {
   dxl.checkMessages();
   if (dxl.instruction != DXL_NO_DATA)
   {
-    digitalWrite(LED, HIGH);
+    digitalWrite(PB0, HIGH);
     switch (dxl.instruction)
     {
       case DXL_PING:
-        digitalWrite(EN, HIGH);
+        digitalWrite(PA1, HIGH);
         dxl.sendStatusPacket(0x00, NULL, 0);
         Serial.flush();
-        digitalWrite(EN, LOW);
+        digitalWrite(PA1, LOW);
         break;
       case DXL_READ_DATA:
         if (dxl.total_parameters == 2 && dxl.parameters[1] == 2)
@@ -75,10 +73,10 @@ void loop() {
               break;
           }
           //delay(1);
-          digitalWrite(EN, HIGH);
+          digitalWrite(PA1, HIGH);
           dxl.sendStatusPacket(0x00, values, 2);
           Serial.flush();
-          digitalWrite(EN, LOW);
+          digitalWrite(PA1, LOW);
         }
         break;
       case DXL_WRITE_DATA:
@@ -95,6 +93,6 @@ void loop() {
         break;
     }
   } else {
-    digitalWrite(LED,LOW);
+    digitalWrite(PB0,LOW);
   }
 }
