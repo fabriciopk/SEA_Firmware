@@ -6,11 +6,14 @@ Installation
 
 .. code-block:: bash
 
-#install tool for flash the device
-sudo apt-get install openocd
-#Install platformio for build the code
-pip install -U platformio
-#build the code
-platformio --lib="lib/AS5048A" --lib="lib/DynamixelProtocol" --board=genericSTM32F103C8
-#flash the target
-make flash
+  #install tool for flash the device
+    > sudo apt-get install openocd
+    
+  #Install platformio for build the code
+    > pip install -U platformio
+    
+  #build the code
+    > platformio --lib="lib/AS5048A" --lib="lib/DynamixelProtocol" --board=genericSTM32F103C8
+    
+  #flash the target
+    > make flash
