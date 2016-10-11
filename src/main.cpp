@@ -2,20 +2,20 @@
 #include <AS5048A.h>
 #include <SPI.h>
 
+
 #define SEA_ID 108
 #define INVERTED
 
 AS5048A mag(10);
-//SoftwareSerial Serial(0,1);
-DynamixelProtocol dxl(400000,SEA_ID); //,&Serial);
+DynamixelProtocol dxl(400000,SEA_ID);
 
 void blink(int times)
 {
   for (int i = 0 ; i < times ; i++)
   {
-    digitalWrite(PB0,HIGH);
-    delay(125);
     digitalWrite(PB0,LOW);
+    delay(125);
+    digitalWrite(PB0,HIGH);
     delay(125);
   }
   delay(500);
@@ -93,6 +93,6 @@ void loop() {
         break;
     }
   } else {
-    digitalWrite(PB0,LOW);
+    digitalWrite(PB0,HIGH);
   }
 }

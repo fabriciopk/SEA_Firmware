@@ -1,7 +1,7 @@
 #ifndef DynamixelProtocol_h
 #define DynamixelProtocol_h
 
-#define LIBRARY_VERSION 1.0.0
+#define LIBRARY_VERSION 2.0.0
 
 #include <Arduino.h>
 
@@ -16,7 +16,7 @@
 
 class DynamixelProtocol {
   public:
-    DynamixelProtocol(long baudRate, unsigned char id); //, SoftwareSerial *serial);
+    DynamixelProtocol(long baudRate, unsigned char id);
     void init();
     void end();
     int checkMessages();
@@ -31,4 +31,3 @@ class DynamixelProtocol {
 };
 
 #endif
-

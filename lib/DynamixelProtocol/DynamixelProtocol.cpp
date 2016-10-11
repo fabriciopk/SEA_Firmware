@@ -1,6 +1,6 @@
 #include "DynamixelProtocol.h"
 
-DynamixelProtocol::DynamixelProtocol(long baudRate, unsigned char id) //, SoftwareSerial *serial)
+DynamixelProtocol::DynamixelProtocol(long baudRate, unsigned char id)
 {
   this->baudRate = baudRate;
   this->id = id;
@@ -10,13 +10,12 @@ DynamixelProtocol::DynamixelProtocol(long baudRate, unsigned char id) //, Softwa
 
 void DynamixelProtocol::init()
 {
-  Serial.begin(baudRate);
-  //Serial.setTimeout(50);
+  Serial2.begin(baudRate);
 }
 
 void DynamixelProtocol::end()
 {
-  Serial.end();
+  Serial2.end();
 }
 
 int DynamixelProtocol::checkMessages()
@@ -33,7 +32,7 @@ int DynamixelProtocol::checkMessages()
   {
     // Serial availability check
     //if (Serial.available() > 0) {
-      c = Serial.read();
+      c = Serial2.read();
       if (c != -1) // && c != 0)
       {
         switch (state)
@@ -108,7 +107,7 @@ int DynamixelProtocol::checkMessages()
     //  quit = 1;
     //}
   }
-  
+
   //TODO check this return
   return 0;
 }
@@ -133,5 +132,5 @@ void DynamixelProtocol::sendStatusPacket(unsigned char error,
     message[5+i] = parameters[i];
   }
   message[5+total_parameters] = checksum;
-  Serial.write((uint8_t *)message,total_parameters+6);
+  Serial2.write((uint8_t *)message,total_parameters+6);
 }
