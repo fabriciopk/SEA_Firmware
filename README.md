@@ -13,7 +13,7 @@ Installation
 > pip install -U platformio
     
 #build the code
-> platformio --lib="lib/AS5048A" --lib="lib/DynamixelProtocol" --board=genericSTM32F103C8
+> platformio run
     
 #flash the target
 > make flash
