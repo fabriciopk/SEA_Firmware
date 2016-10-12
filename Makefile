@@ -6,9 +6,8 @@ BINDIR = .pioenvs/genericSTM32F103C8
 OCD = openocd
 RM = rm -rf
 
-install: $(BINDIR)/firmware.bin
+flash: $(BINDIR)/firmware.bin
 	$(OCD) $(OCDFLAGS)
-
 
 cleanBuild: clean
 

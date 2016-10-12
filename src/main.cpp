@@ -3,7 +3,7 @@
 #include <SPI.h>
 
 
-#define SEA_ID 108
+#define SEA_ID 1
 #define INVERTED
 
 AS5048A mag(10);
