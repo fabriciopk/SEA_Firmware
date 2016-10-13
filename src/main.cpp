@@ -3,11 +3,11 @@
 #include <SPI.h>
 
 
-#define SEA_ID 1
+#define SEA_ID 108
 #define INVERTED
 
 AS5048A mag(10);
-DynamixelProtocol dxl(400000,SEA_ID);
+DynamixelProtocol dxl(1000000,SEA_ID);
 
 void blink(int times)
 {
@@ -24,8 +24,12 @@ void blink(int times)
 void setup()
 {
   pinMode(PB0, OUTPUT);
-  pinMode(PB0, OUTPUT);
+  pinMode(PB2, OUTPUT);
+  pinMode(PB3, OUTPUT);
+  //Enable rs485
+  pinMode(PA1, OUTPUT);
   digitalWrite(PA1, LOW);
+
   mag.init();
   dxl.init();
   blink(SEA_ID - 100);
@@ -40,13 +44,13 @@ void loop() {
   dxl.checkMessages();
   if (dxl.instruction != DXL_NO_DATA)
   {
-    digitalWrite(PB0, HIGH);
+
     switch (dxl.instruction)
     {
       case DXL_PING:
         digitalWrite(PA1, HIGH);
         dxl.sendStatusPacket(0x00, NULL, 0);
-        Serial.flush();
+        Serial2.flush();
         digitalWrite(PA1, LOW);
         break;
       case DXL_READ_DATA:
@@ -58,6 +62,7 @@ void loop() {
             case 0x24:
               values[0] = (unsigned char)val;
               values[1] = (unsigned char)(val >> 8);
+              digitalWrite(PB2, HIGH);
               break;
             case 0x00:
               values[0] = 54;
@@ -72,10 +77,9 @@ void loop() {
               values[1] = 0;
               break;
           }
-          //delay(1);
           digitalWrite(PA1, HIGH);
           dxl.sendStatusPacket(0x00, values, 2);
-          Serial.flush();
+          Serial2.flush();
           digitalWrite(PA1, LOW);
         }
         break;
@@ -95,4 +99,5 @@ void loop() {
   } else {
     digitalWrite(PB0,HIGH);
   }
+  digitalWrite(PB2, LOW);
 }
