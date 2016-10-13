@@ -4,5 +4,19 @@ Firmware for series elastic actuator, this board contains a stm32f103 microcontr
 Installation
 ============
 
-
 UPLOAD USING ARDUINO IDE
+=======
+```
+#install tool for flash the device
+> sudo apt-get install openocd
+
+#Install platformio for build the code
+> pip install -U platformio
+
+#build the code
+> platformio run
+
+#flash the target
+> make flash
+```
+>>>>>>> feac18e27c0c0d4a605dd12bc373f16afc628541
