@@ -19,4 +19,3 @@ UPLOAD USING ARDUINO IDE
 #flash the target
 > make flash
 ```
->>>>>>> feac18e27c0c0d4a605dd12bc373f16afc628541
