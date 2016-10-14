@@ -59,7 +59,7 @@ void loop() {
       case DXL_PING:
         digitalWrite(EN, HIGH);
         dxl.sendStatusPacket(0x00, NULL, 0);
-        SERIAL.waitDataToBeSent();
+        //SERIAL.waitDataToBeSent();
         digitalWrite(EN, LOW);
         break;
       case DXL_READ_DATA:
@@ -88,7 +88,7 @@ void loop() {
           }
           digitalWrite(EN, HIGH);
           dxl.sendStatusPacket(0x00, values, 2);
-          SERIAL.waitDataToBeSent();
+          //SERIAL.waitDataToBeSent();
           digitalWrite(EN, LOW);
         }
         break;
