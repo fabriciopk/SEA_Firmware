@@ -1,5 +1,6 @@
 #include <DynamixelProtocol.h>
 #include <AS5048A.h>
+#include <SPI.h>
 
 #define SEA_ID 108
 #define INVERTED
