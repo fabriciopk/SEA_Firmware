@@ -1,21 +1,32 @@
 #include <DynamixelProtocol.h>
 #include <AS5048A.h>
-#include <SPI.h>
-
 
 #define SEA_ID 108
 #define INVERTED
+#define SEA_INSTRUCTION 0x24
 
-AS5048A mag(10);
-DynamixelProtocol dxl(1000000,SEA_ID);
+//Leds PB0, PB1, PB2, PB10
+#define LED_ORANGE PB0
+#define LED_RED PB2
+//Leds placa cantos vivos, PA12, PA13, PA14 ,PA15
+
+#define SPI_NSS PA4
+#define BAUDRATE_DX 1000000
+
+//Para a placa com canto arredondado
+#define SERIAL Serial2 //Tem que mudar dentro da biblioteca do dynamixel tambem (Serial)
+#define EN PA1 //PA11 para que tem canto vivo.
+
+AS5048A mag(SPI_NSS);
+DynamixelProtocol dxl(BAUDRATE_DX,SEA_ID);
 
 void blink(int times)
 {
   for (int i = 0 ; i < times ; i++)
   {
-    digitalWrite(PB0,LOW);
+    digitalWrite(LED_ORANGE,LOW);
     delay(125);
-    digitalWrite(PB0,HIGH);
+    digitalWrite(LED_ORANGE,HIGH);
     delay(125);
   }
   delay(500);
@@ -23,12 +34,10 @@ void blink(int times)
 
 void setup()
 {
-  pinMode(PB0, OUTPUT);
-  pinMode(PB2, OUTPUT);
-  pinMode(PB3, OUTPUT);
+  pinMode(LED_ORANGE, OUTPUT);
   //Enable rs485
-  pinMode(PA1, OUTPUT);
-  digitalWrite(PA1, LOW);
+  pinMode(EN, OUTPUT);
+  digitalWrite(EN, LOW);
 
   mag.init();
   dxl.init();
@@ -48,10 +57,10 @@ void loop() {
     switch (dxl.instruction)
     {
       case DXL_PING:
-        digitalWrite(PA1, HIGH);
+        digitalWrite(EN, HIGH);
         dxl.sendStatusPacket(0x00, NULL, 0);
-        Serial2.flush();
-        digitalWrite(PA1, LOW);
+        SERIAL.waitDataToBeSent();
+        digitalWrite(EN, LOW);
         break;
       case DXL_READ_DATA:
         if (dxl.total_parameters == 2 && dxl.parameters[1] == 2)
@@ -59,10 +68,10 @@ void loop() {
           unsigned char values[2];
           switch (dxl.parameters[0])
           {
-            case 0x24:
+            case SEA_INSTRUCTION:
               values[0] = (unsigned char)val;
               values[1] = (unsigned char)(val >> 8);
-              digitalWrite(PB2, HIGH);
+              digitalWrite(LED_RED, HIGH);
               break;
             case 0x00:
               values[0] = 54;
@@ -77,10 +86,10 @@ void loop() {
               values[1] = 0;
               break;
           }
-          digitalWrite(PA1, HIGH);
+          digitalWrite(EN, HIGH);
           dxl.sendStatusPacket(0x00, values, 2);
-          Serial2.flush();
-          digitalWrite(PA1, LOW);
+          SERIAL.waitDataToBeSent();
+          digitalWrite(EN, LOW);
         }
         break;
       case DXL_WRITE_DATA:
@@ -97,7 +106,7 @@ void loop() {
         break;
     }
   } else {
-    digitalWrite(PB0,HIGH);
+    digitalWrite(LED_ORANGE,HIGH);
   }
-  digitalWrite(PB2, LOW);
+  digitalWrite(LED_RED, LOW);
 }
