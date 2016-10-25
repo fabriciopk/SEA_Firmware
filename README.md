@@ -5,7 +5,9 @@ Installation
 ============
 
 Upload using arduino IDE:
-[Follow the instructions here](https://github.com/rogerclarkmelbourne/Arduino_STM32/wiki/Installation)
+Download zip file containing the STM32 files from [here](https://github.com/fabriciopk/Arduino_STM32/archive/master.zip)
+
+Follow the instructions [here](https://github.com/rogerclarkmelbourne/Arduino_STM32/wiki/Installation)
 
 Setup Arduino IDE
 ====================
@@ -14,6 +16,8 @@ Board:STM32F103C Generic
 Variant:STM32F103C8
 
 Upload method: Stlink
+
+Copy the content of the folder lib to arduino libraries folder
 
 You can find the pins for SWD setup in the hardware folder.
 
