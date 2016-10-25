@@ -1,0 +1,38 @@
+Partlist
+
+Exported from Mag_Read_STM_OUT.brd at 06/10/16 16:48
+
+EAGLE Version 7.7.0 Copyright (c) 1988-2016 CadSoft
+
+Assembly variant: 
+
+Part     Value          Package            Library             Position (mil)        Orientation
+
+3V1      Blue           LED-0603           SparkFun-LED        (887.5 262.5)         R90
+AS2                     AS5048A_14-TSSOP   xl_custom_lib       (0 0)                 MR270
+C1       10uF           C0603              rcl                 (-175 225)            R180
+C2       100nF          C0603              rcl                 (250 -137.5)          R270
+C3       100nF          C0603              rcl                 (275 100)             MR90
+C4       100nF          C0603              rcl                 (162.5 -250)          R90
+C5       100nF          C0603              rcl                 (-187.5 -187.5)       R270
+C6       100nF          C0603              rcl                 (-262.5 -150)         R270
+C7       100nF          C0603              rcl                 (300 62.5)            R0
+C8       100nF          C0603              rcl                 (1212.5 -175)         MR270
+C9       1uF            C0603              rcl                 (300 112.5)           R0
+C10      10uF           C0603              rcl                 (1500 75)             MR270
+C11      100nF          C0603              rcl                 (-62.5 -225)          MR270
+C12      10uF           C0603              rcl                 (25 -225)             MR270
+C13      100nF          C0603              rcl                 (1312.5 -100)         R90
+C15      22pF           C0603              rcl                 (475 -256.25)         R180
+C16      22pF           C0603              rcl                 (612.5 -43.75)        R180
+IC1      STM32F10XCXT6  TQFP48             stm32               (0 0)                 R90
+J1                      1X05               SparkFun-Connectors (475 -400)            R0
+J3       22-03-5045     5267-4             molex-1             (1122.04724 334.64567) R180
+J4       22-03-5045     5267-4             molex-1             (1422.44094 -332.67717) R0
+LED1                    P-LCC-4-3          led                 (774.5 412.5)         R90
+Q1                      CTS406             crystal             (487.5 -150)          R180
+R6       0R             0603-RES           SparkFun-Passives   (62.5 -250)           R180
+R7       120ohms        0603-RES           SparkFun-Passives   (1462.5 237.5)        R180
+RN1      51R            CAY10-XXXJ4        Robocup             (450 412.5)           R90
+U2       LM1117         SOT223             SparkFun-PowerIC    (1387.5 -62.5)        MR0
+U5       SN65HVD78D     SOIC127P600X175-8N Robocup             (1175 -25)            R270

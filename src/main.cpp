@@ -1,22 +1,37 @@
 #include <DynamixelProtocol.h>
 #include <AS5048A.h>
-#include <SPI.h>
 
-#define SEA_ID 108
+#define SEA_ID 105
 #define INVERTED
 #define SEA_INSTRUCTION 0x24
 
-//Leds PB0, PB1, PB2, PB10
-#define LED_ORANGE PB0
+#define SEA_RECT
+
+#ifdef SEA_RECT
+
+#define LED PB12
+#define LED_RED PB14
+#define LED_BLUE PB15
+#define LED_GREEN PB13
+#define SERIAL Serial1 //Tem que mudar dentro da biblioteca do dynamixel tambem (Serial)
+#define EN PA11
+
+#else
+
+#define LED PB0
 #define LED_RED PB2
-//Leds placa cantos vivos, PA12, PA13, PA14 ,PA15
+#define LED_BLUE PB1
+#define LED_GREEN PB10
+#define SERIAL Serial2 //Tem que mudar dentro da biblioteca do dynamixel tambem (Serial)
+#define EN PA1
+
+#endif
 
 #define SPI_NSS PA4
 #define BAUDRATE_DX 1000000
 
-//Para a placa com canto arredondado
-#define SERIAL Serial2 //Tem que mudar dentro da biblioteca do dynamixel tambem (Serial)
-#define EN PA1 //PA11 para que tem canto vivo.
+int RGB[3] = {LED_RED, LED_GREEN, LED_BLUE};
+int color = 0;
 
 AS5048A mag(SPI_NSS);
 DynamixelProtocol dxl(BAUDRATE_DX,SEA_ID);
@@ -25,9 +40,9 @@ void blink(int times)
 {
   for (int i = 0 ; i < times ; i++)
   {
-    digitalWrite(LED_ORANGE,LOW);
+    digitalWrite(LED,LOW);
     delay(125);
-    digitalWrite(LED_ORANGE,HIGH);
+    digitalWrite(LED,HIGH);
     delay(125);
   }
   delay(500);
@@ -35,7 +50,11 @@ void blink(int times)
 
 void setup()
 {
-  pinMode(LED_ORANGE, OUTPUT);
+  delay(1000);
+  pinMode(LED, OUTPUT);
+  pinMode(LED_RED, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+  pinMode(LED_BLUE, OUTPUT);
   //Enable rs485
   pinMode(EN, OUTPUT);
   digitalWrite(EN, LOW);
@@ -43,6 +62,9 @@ void setup()
   mag.init();
   dxl.init();
   blink(SEA_ID - 100);
+  digitalWrite(LED_RED, HIGH);
+  digitalWrite(LED_GREEN, HIGH);
+  digitalWrite(LED_BLUE, HIGH);
 }
 
 void loop() {
@@ -72,7 +94,7 @@ void loop() {
             case SEA_INSTRUCTION:
               values[0] = (unsigned char)val;
               values[1] = (unsigned char)(val >> 8);
-              digitalWrite(LED_RED, HIGH);
+              digitalWrite(LED, HIGH);
               break;
             case 0x00:
               values[0] = 54;
@@ -91,6 +113,9 @@ void loop() {
           dxl.sendStatusPacket(0x00, values, 2);
           //SERIAL.waitDataToBeSent();
           digitalWrite(EN, LOW);
+          digitalWrite(RGB[color], LOW);
+          color = (color + 1) % 3;
+          digitalWrite(RGB[color], HIGH);
         }
         break;
       case DXL_WRITE_DATA:
@@ -107,7 +132,10 @@ void loop() {
         break;
     }
   } else {
-    digitalWrite(LED_ORANGE,HIGH);
+    digitalWrite(LED_RED, HIGH);
+    digitalWrite(LED_GREEN, HIGH);
+    digitalWrite(LED_BLUE, HIGH);
+    digitalWrite(LED, HIGH);
   }
-  digitalWrite(LED_RED, LOW);
+  digitalWrite(LED, HIGH);
 }
