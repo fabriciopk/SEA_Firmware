@@ -24,7 +24,7 @@ You can find the pins for SWD setup in the hardware folder.
 Usage
 =======
 ```c++
-#define SEA_ID 105 //ID of the board in the dinamyxel 
+#define SEA_ID 105
 #define INVERTED
 ...
 #define SEA_RECT //Type of the board, coment if is the rounded board
@@ -32,7 +32,7 @@ Usage
 ```
 Testing(linux)
 =======
-
+Plug usb2Dinamyxel, power on the board.
 ```bash
 cd test_board
 make
