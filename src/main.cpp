@@ -1,6 +1,9 @@
 #include <DynamixelProtocol.h>
 #include <AS5048A.h>
 
+//TODO check if serial of maple core is in the correct pins
+//HardwareSerial Serial1(&rx_buffer1, &UBRR1H, &UBRR1L, &UCSR1A, &UCSR1B, &UDR1, RXEN1, TXEN1, RXCIE1, UDRE1, U2X1);
+
 #define SEA_ID 105
 #define INVERTED
 #define SEA_INSTRUCTION 0x24
@@ -34,7 +37,7 @@ int RGB[3] = {LED_RED, LED_GREEN, LED_BLUE};
 int color = 0;
 
 AS5048A mag(SPI_NSS);
-DynamixelProtocol dxl(BAUDRATE_DX,SEA_ID);
+DynamixelProtocol dxl(BAUDRATE_DX, SEA_ID, &SERIAL);
 
 void blink(int times)
 {
@@ -82,7 +85,7 @@ void loop() {
       case DXL_PING:
         digitalWrite(EN, HIGH);
         dxl.sendStatusPacket(0x00, NULL, 0);
-        //SERIAL.waitDataToBeSent();
+        SERIAL.waitDataToBeSent();
         digitalWrite(EN, LOW);
         break;
       case DXL_READ_DATA:
@@ -111,7 +114,7 @@ void loop() {
           }
           digitalWrite(EN, HIGH);
           dxl.sendStatusPacket(0x00, values, 2);
-          //SERIAL.waitDataToBeSent();
+          SERIAL.waitDataToBeSent();
           digitalWrite(EN, LOW);
           digitalWrite(RGB[color], LOW);
           color = (color + 1) % 3;

@@ -16,7 +16,7 @@
 
 class DynamixelProtocol {
   public:
-    DynamixelProtocol(long baudRate, unsigned char id);
+    DynamixelProtocol(long baudRate, unsigned char id, HardwareSerial *serial);
     void init();
     void end();
     int checkMessages();
@@ -28,6 +28,9 @@ class DynamixelProtocol {
     unsigned char parameters[256];
     unsigned char total_parameters;
     unsigned char checksum;
+  private:
+    HardwareSerial* _Serial;
+
 };
 
 #endif
