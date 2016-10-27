@@ -37,15 +37,15 @@ int RGB[3] = {LED_RED, LED_GREEN, LED_BLUE};
 int color = 0;
 
 AS5048A mag(SPI_NSS);
-DynamixelProtocol dxl(BAUDRATE_DX, SEA_ID, &SERIAL);
+DynamixelProtocol dxl(BAUDRATE_DX, SEA_ID, SERIAL);
 
 void blink(int times)
 {
   for (int i = 0 ; i < times ; i++)
   {
-    digitalWrite(LED,LOW);
+    digitalWrite(LED, LOW);
     delay(125);
-    digitalWrite(LED,HIGH);
+    digitalWrite(LED, HIGH);
     delay(125);
   }
   delay(500);
@@ -71,11 +71,11 @@ void setup()
 }
 
 void loop() {
-  #ifndef INVERTED
+#ifndef INVERTED
   word val = mag.getRawRotation();
-  #else
+#else
   word val = 8192 - mag.getRawRotation();
-  #endif
+#endif
   dxl.checkMessages();
   if (dxl.instruction != DXL_NO_DATA)
   {

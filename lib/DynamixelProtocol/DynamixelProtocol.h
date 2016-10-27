@@ -3,7 +3,7 @@
 
 #define LIBRARY_VERSION 2.0.0
 
-#include <Arduino.h>
+#include <HardwareSerial.h>
 
 #define DXL_NO_DATA 0xFF
 #define DXL_PING 0x01
@@ -16,7 +16,7 @@
 
 class DynamixelProtocol {
   public:
-    DynamixelProtocol(long baudRate, unsigned char id, HardwareSerial *serial);
+    DynamixelProtocol(long baudRate, unsigned char id, HardwareSerial &serIn);
     void init();
     void end();
     int checkMessages();
@@ -28,8 +28,7 @@ class DynamixelProtocol {
     unsigned char parameters[256];
     unsigned char total_parameters;
     unsigned char checksum;
-  private:
-    HardwareSerial* _Serial;
+    HardwareSerial& _serial;
 
 };
 
