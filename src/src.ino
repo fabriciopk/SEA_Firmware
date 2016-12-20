@@ -16,7 +16,7 @@
 #define LED_RED PB14
 #define LED_BLUE PB15
 #define LED_GREEN PB13
-#define SERIAL Serial1 //Tem que mudar dentro da biblioteca do dynamixel tambem (Serial)
+#define SERIAL Serial1
 #define EN PA11
 
 #else
@@ -25,7 +25,7 @@
 #define LED_RED PB2
 #define LED_BLUE PB1
 #define LED_GREEN PB10
-#define SERIAL Serial2 //Tem que mudar dentro da biblioteca do dynamixel tambem (Serial)
+#define SERIAL Serial2
 #define EN PA1
 
 #endif
