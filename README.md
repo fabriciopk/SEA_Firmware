@@ -6,16 +6,20 @@ Firmware for series elastic actuator, this board contains a stm32f103 microcontr
 - Download zip file containing the STM32 files from [here](https://github.com/fabriciopk/Arduino_STM32/archive/master.zip)
 - Follow the instructions [here](https://github.com/rogerclarkmelbourne/Arduino_STM32/wiki/Installation)
 
-#Setup Arduino IDE
+#Setup Arduino IDE and board upload pins
 - Board:STM32F103C Generic
 - Variant:STM32F103C8
 - Upload method: Stlink
-- Copy the content of the folder lib to arduino libraries folder
-- You can find the pins for SWD setup in the hardware folder.
+- Open src/src.ino
+- Pins for SWD(stlink v.2) setup:
+
+![alt tag](https://github.com/fabriciopk/SEA_Firmware/blob/master/hardware/retangular.png)
+
+![alt tag](https://github.com/fabriciopk/SEA_Firmware/blob/master/hardware/round.png)
 
 #Usage
 ```c++
-#define SEA_ID 105
+#define SEA_ID 105 //define the board id in rs485 network
 #define INVERTED
 ...
 #define SEA_RECT //Type of the board, coment if is the rounded board
