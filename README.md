@@ -17,7 +17,8 @@ Firmware for series elastic actuator, this board contains a stm32f103 microcontr
 
 ![alt tag](https://github.com/fabriciopk/SEA_Firmware/blob/master/hardware/round.png)
 
-#Usage
+NOTE: top-side of board.
+#Board settings
 ```c++
 #define SEA_ID 105 //define the board id in rs485 network
 #define INVERTED
