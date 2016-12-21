@@ -14,7 +14,7 @@ Firmware for series elastic actuator, this board contains a stm32f103 microcontr
 - Board:STM32F103C Generic
 - Variant:STM32F103C8
 - Upload method: Stlink
-- Open src/src.ino
+- Open [src/src.ino](https://github.com/fabriciopk/SEA_Firmware/blob/master/src/src.ino)
 - Pins for SWD(stlink v.2) setup:
 
 ![alt tag](https://github.com/fabriciopk/SEA_Firmware/blob/master/hardware/retangular.png)
