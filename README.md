@@ -7,7 +7,7 @@ Firmware for series elastic actuator, this board contains a stm32f103 microcontr
 - Download zip file containing the STM32 files from [here](https://github.com/fabriciopk/Arduino_STM32/archive/master.zip)
 - Unzip in arduino hardware folder (arduino-1.6.xx/hardware/) and rename to Arduino_STM32
 - Run the arduino IDE, and on the Tools menu, select the Boards manager (Tools > Boards > Boards Manager), and install the Arduino Zero(Arduino SAMD boards 32 bits cortex M3) from the list of available boards. You must do this step, it installs the arm-none-eabi-g++ toolchain!
-- Copy AS5048A and DynamixelProtocol from lib folder to (arduino-1.6.xx/libraries/)
+- Copy AS5048A and DynamixelProtocol from [lib](https://github.com/fabriciopk/SEA_Firmware/tree/master/lib) folder to (arduino-1.6.xx/libraries/)
 
 
 #Setup Arduino IDE and board upload pins
