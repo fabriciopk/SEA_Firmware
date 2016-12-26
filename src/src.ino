@@ -1,9 +1,6 @@
 #include <DynamixelProtocol.h>
 #include <AS5048A.h>
 
-//TODO check if serial of maple core is in the correct pins
-//HardwareSerial Serial1(&rx_buffer1, &UBRR1H, &UBRR1L, &UCSR1A, &UCSR1B, &UDR1, RXEN1, TXEN1, RXCIE1, UDRE1, U2X1);
-
 #define SEA_ID 105
 #define INVERTED
 #define SEA_INSTRUCTION 0x24
