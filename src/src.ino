@@ -1,3 +1,5 @@
+#include <SPI.h>
+
 #include <DynamixelProtocol.h>
 #include <AS5048A.h>
 
@@ -8,7 +10,7 @@
 #define INVERTED
 #define SEA_INSTRUCTION 0x24
 
-#define SEA_RECT
+//#define SEA_RECT
 
 #ifdef SEA_RECT
 
